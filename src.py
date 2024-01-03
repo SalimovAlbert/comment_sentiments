@@ -2,7 +2,6 @@ import pandas as pd
 import requests
 import numpy as np
 
-from datetime import datetime
 import urllib.parse as urlparse
 from tqdm import tqdm
 
@@ -61,12 +60,15 @@ def pipeline_sentiment(url_value, api_key, model):
 def pipeline_stats(data, col_sentiment):
     return (data.groupby([col_sentiment])[[col_sentiment]].count() / data.shape[0])[config.col_sentiment]
 
-# def pipeline_summarize(data, model, length=2057, max_length=70):
+def pipeline_summarize(data, model, length=2057, max_length=70):
     
-#     text = ".".join(data)
-#     chunk = len(text) // length
-#     result_text = []
+    text = ".".join(data)
+    chunk = len(text) // length
+    result_text = []
     
-#     for i in tqdm(range(0, len(text), length)):
+    for i in tqdm(range(0, len(text), length)):
+        new_text = text[i: i + length]
+        result_text.append(model(new_text, max_length=max_length))
         
+    return ". ".join([i[0]["summary_text"] for i in result_text])
     
