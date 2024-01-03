@@ -1,0 +1,6 @@
+transformers[torch]
+sentencepiece
+pandas
+uvicorn
+fastapi
+python-dotenv
